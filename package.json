@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "Some of the projects for [The Odin Project](https://www.theodinproject.com/), in the javascript syllabus.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prettier": "prettier . --write"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
 }
