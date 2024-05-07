@@ -7,7 +7,8 @@
     "prettier": "prettier . --write",
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack serve --config webpack.dev.js --open",
-    "i": "./install-with-types.sh"
+    "i": "./install-with-types.sh",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,8 @@
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.1.0",
     "html-webpack-plugin": "^5.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
@@ -29,5 +32,9 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^5.10.0"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,css,md}": "prettier --write"
   }
 }
