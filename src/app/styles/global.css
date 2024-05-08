@@ -1,0 +1,71 @@
+@charset "utf-8";
+
+/* CSS Resets */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* STYLES */
+
+:root {
+  --theme-color: hsl(180, 96%, 35%);
+  --theme-color-light: hsl(180, 96%, 45%);
+  --theme-color-dark: hsl(179, 95%, 15%);
+
+  --color-gray-100: hsl(225, 25%, 95%);
+  --color-gray-200: hsl(225, 16%, 90%);
+  --color-gray-300: hsl(225, 8%, 80%);
+  --color-gray-400: hsl(225, 8%, 70%);
+  --color-gray-500: hsl(225, 7%, 60%);
+  --color-gray-600: hsl(225, 15%, 50%);
+  --color-gray-700: hsl(225, 12%, 40%);
+  --color-gray-900: hsl(225, 25%, 20%);
+  --color-gray-1000: hsl(225, 15%, 15%);
+
+  --color-success: hsl(151, 67%, 45%);
+  --color-attention: hsl(50, 99%, 50%);
+  --color-danger: hsl(0, 100%, 50%);
+}
