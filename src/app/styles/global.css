@@ -69,3 +69,7 @@ h6 {
   --color-attention: hsl(50, 99%, 50%);
   --color-danger: hsl(0, 100%, 50%);
 }
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
