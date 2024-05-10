@@ -68,8 +68,124 @@ h6 {
   --color-success: hsl(151, 67%, 45%);
   --color-attention: hsl(50, 99%, 50%);
   --color-danger: hsl(0, 100%, 50%);
+
+  --padding-sm: 8px;
+  --padding-md: 16px;
+  --padding-lg: 32px;
+
+  --border-radius: 6px;
+
+  --transition-in-delay: 125ms;
+  --transition-out-delay: 275ms;
+  --transition-delay: var(--transition-out-delay);
 }
 
 html {
   font-family: 'Roboto', sans-serif;
+  color: var(--color-gray-900);
+}
+
+.app {
+  min-height: 100%;
+
+  display: grid;
+  grid-template-columns: min(350px, 100dvw) calc(100dvw - min(350px, 100dvw));
+  grid-template-rows: 100px 1fr;
+  grid-template-areas:
+    'header header'
+    'sidebar main';
+
+  overflow: hidden;
+}
+
+.header {
+  grid-area: header;
+  display: grid;
+  place-content: center;
+  padding-block: var(--padding-md);
+  color: var(--color-gray-100);
+  background: linear-gradient(
+    to right,
+    var(--theme-color-dark) 0%,
+    var(--theme-color) 60%,
+    var(--theme-color-light)
+  );
+}
+
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-md) var(--padding-md) 0;
+
+  fieldset {
+    border: none;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding-sm) 0;
+
+    gap: var(--padding-sm);
+    list-style-type: none;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-sm);
+    padding-inline: 0;
+
+    label {
+      display: inline-block;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .filter {
+      padding: var(--padding-sm);
+      border: 1px solid transparent;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition:
+        color var(--transition-delay) ease-in,
+        background-color var(--transition-delay) ease-in,
+        border-color var(--transition-delay) ease-in;
+    }
+
+    .filter:hover {
+      --transition-delay: var(--transition-in-delay);
+      color: var(--theme-color);
+      border: 1px solid var(--theme-color);
+    }
+
+    input[type='radio'] {
+      display: none;
+    }
+
+    input[type='radio']:checked + .filter {
+      color: var(--color-gray-100);
+      background-color: var(--theme-color);
+    }
+  }
+
+  .footer {
+    margin-block-start: auto;
+    text-align: center;
+    padding-block-end: var(--padding-md);
+  }
+}
+
+.main {
+  grid-area: main;
+  padding: var(--padding-md);
+}
+
+button {
+  color: inherit;
 }

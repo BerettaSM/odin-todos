@@ -14,7 +14,69 @@
 
 <body>
 
-    <div class="app"></div>
+    <div class="app">
+
+        <header class="header">
+
+            <h1>Todos</h1>
+
+        </header>
+
+        <div class="sidebar">
+
+            <section>
+                <h2>Menu</h2>
+
+                <ul id="menu-actions" class="actions">
+                    <li>
+                        <button>Add Todo</button>
+                    </li>
+                    <li>
+                        <button>Add Project</button>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <fieldset class="filters">
+                    <legend>Filters</legend>
+                    <p>
+                        <input name="filter-option" type="radio" id="all" checked />
+                        <label for="all" class="filter selected">All</label>
+                    </p>
+                    <p >
+                        <input name="filter-option" type="radio" id="expired" />
+                        <label for="expired" class="filter">Expired</label>
+                    </p>
+                    <p>
+                        <input name="filter-option" type="radio" id="today" />
+                        <label for="today" class="filter">Today</label>
+                    </p>
+                    <p>
+                        <input name="filter-option" type="radio" id="current-week" />
+                        <label for="current-week" class="filter">Current Week</label>
+                    </p>
+                    <p>
+                        <input name="filter-option" type="radio" id="current-month" />
+                        <label for="current-month" class="filter">Current Month</label>
+                    </p>
+                </fieldset>
+            </section>
+
+            <footer class="footer">
+                <p>&copy;<span id="footer-year"></span>. All rights reserved.</p>
+                <p>By Ramon Saviato</p>
+            </footer>
+
+        </div>
+
+        <main class="main">
+
+            <h3>Some content here</h3>
+
+        </main>
+
+    </div>
 
 </body>
 
