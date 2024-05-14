@@ -86,11 +86,12 @@ html {
 }
 
 .app {
+  --header-height: 100px;
   height: 100%;
 
   display: grid;
   grid-template-columns: min(350px, 100dvw) calc(100dvw - min(350px, 100dvw));
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: var(--header-height) 1fr;
   grid-template-areas:
     'header header'
     'sidebar main';
@@ -208,6 +209,7 @@ html {
   padding: var(--padding-md);
 
   .project {
+    --project-header-height: 75px;
     background-color: var(--color-gray-200);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -223,12 +225,24 @@ html {
       display: flex;
       justify-content: space-between;
       padding: var(--padding-md);
+      height: var(--project-header-height);
     }
 
     .todo-sections {
       display: flex;
       flex-direction: column;
       gap: 8px;
+      /*
+        The following height calc is meant to constrain
+        this container in a way that excess child elements
+        trigger a scrollbar, instead of increasing its height
+        offscreen.
+      */
+      height: calc(
+        100dvh - var(--header-height) - var(--padding-md) * 2 -
+          var(--project-header-height)
+      );
+      overflow-y: auto;
       padding: var(--padding-md);
 
       section {
