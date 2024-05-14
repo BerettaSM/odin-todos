@@ -86,7 +86,7 @@ html {
 }
 
 .app {
-  min-height: 100%;
+  height: 100%;
 
   display: grid;
   grid-template-columns: min(350px, 100dvw) calc(100dvw - min(350px, 100dvw));
@@ -226,6 +226,9 @@ html {
     }
 
     .todo-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       padding: var(--padding-md);
 
       section {
@@ -243,6 +246,7 @@ html {
       .todo {
         display: flex;
         align-items: center;
+        position: relative;
         gap: 8px;
 
         background-color: var(--color-gray-100);
@@ -262,6 +266,8 @@ html {
 
         .check-icon {
           position: absolute;
+          left: 8px;
+          top: 50%;
           color: var(--color-success);
           pointer-events: none;
         }
