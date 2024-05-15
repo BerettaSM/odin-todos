@@ -366,3 +366,20 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@media (min-width: 500px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--color-gray-300);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 1000px;
+    background-color: var(--theme-color);
+    border: 2px solid var(--color-gray-300);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--theme-color-light);
+  }
+}
