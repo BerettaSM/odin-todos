@@ -83,6 +83,7 @@ h6 {
 html {
   font-family: 'Roboto', sans-serif;
   color: var(--color-gray-900);
+  overflow: hidden !important;
 }
 
 .app {
@@ -91,12 +92,12 @@ html {
 
   display: grid;
   grid-template-columns: min(350px, 100dvw) calc(100dvw - min(350px, 100dvw));
-  grid-template-rows: var(--header-height) 1fr;
+  grid-template-rows: var(--header-height) calc(100% - var(--header-height));
   grid-template-areas:
     'header header'
     'sidebar main';
 
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .header {
@@ -208,14 +209,31 @@ html {
 
 .main {
   grid-area: main;
+  height: 100%;
   padding: var(--padding-md);
+  overflow-x: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--padding-md);
+
+  scroll-snap-type: x mandatory;
 
   .project {
+    scroll-snap-align: start;
+    scroll-margin-inline-start: var(--padding-md);
+
     --project-header-height: 75px;
+
+    display: inline-block;
+    flex: 0 0 100%;
     background-color: var(--color-gray-200);
     border-radius: var(--border-radius);
     overflow: hidden;
     height: 100%;
+
+    @media (min-width: 950px) {
+      flex-basis: calc(950px - 350px - 2 * var(--padding-md));
+    }
 
     .project-header {
       background: linear-gradient(
@@ -372,6 +390,7 @@ button {
 @media (min-width: 500px) {
   ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
     background-color: var(--color-gray-300);
   }
 
