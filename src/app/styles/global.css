@@ -124,7 +124,7 @@ html {
     border: none;
   }
 
-  .actions {
+  .project-actions {
     display: flex;
     flex-direction: column;
     padding: var(--padding-sm) 0;
@@ -133,7 +133,18 @@ html {
     list-style-type: none;
 
     button {
+      background-color: var(--theme-color);
+      color: var(--color-gray-200);
+      border: none;
+      border-radius: var(--border-radius);
+      padding: var(--padding-sm);
       width: 100%;
+      transition: filter var(--transition-out-delay) ease-out;
+    }
+
+    button:hover {
+      transition-duration: var(--transition-in-delay);
+      filter: brightness(0.85);
     }
   }
 
@@ -287,6 +298,8 @@ html {
         border-radius: var(--border-radius);
         padding: var(--padding-sm);
 
+        transition: filter var(--transition-out-delay) ease-out;
+
         input[type='checkbox'] {
           opacity: 0;
           height: 20px;
@@ -328,6 +341,11 @@ html {
             width: 30px;
           }
         }
+      }
+
+      .todo:hover {
+        transition-duration: var(--transition-in-delay);
+        filter: brightness(0.9);
       }
     }
   }
