@@ -78,6 +78,20 @@ h6 {
   --transition-in-delay: 125ms;
   --transition-out-delay: 275ms;
   --transition-delay: var(--transition-out-delay);
+
+  --shadow-color: 0deg 0% 63%;
+  --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.36),
+    0.8px 1.6px 2px -0.8px hsl(var(--shadow-color) / 0.36),
+    2.1px 4.1px 5.2px -1.7px hsl(var(--shadow-color) / 0.36),
+    5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.36);
+  --shadow-elevation-high: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.34),
+    1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color) / 0.34),
+    2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color) / 0.34),
+    4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color) / 0.34),
+    7.1px 14.3px 18px -1.4px hsl(var(--shadow-color) / 0.34),
+    11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color) / 0.34),
+    17px 33.9px 42.7px -2.1px hsl(var(--shadow-color) / 0.34),
+    25px 50px 62.9px -2.5px hsl(var(--shadow-color) / 0.34);
 }
 
 html {
@@ -112,6 +126,7 @@ html {
     var(--theme-color) 60%,
     var(--theme-color-light)
   );
+  box-shadow: var(--shadow-elevation-medium);
 }
 
 .sidebar {
@@ -139,19 +154,26 @@ html {
       border-radius: var(--border-radius);
       padding: var(--padding-sm);
       width: 100%;
-      transition: filter var(--transition-out-delay) ease-out;
+      transition:
+        filter var(--transition-out-delay) ease-out,
+        transform var(--transition-out-delay) ease-out,
+        box-shadow var(--transition-out-delay) ease-out;
+      box-shadow: var(--shadow-elevation-medium);
+      will-change: transform;
     }
 
     button:hover {
       transition-duration: var(--transition-in-delay);
-      filter: brightness(0.85);
+      filter: brightness(0.9);
+      transform: translate(-3px, -2px) scale(1.01);
+      box-shadow: var(--shadow-elevation-high);
     }
   }
 
   .filters {
     display: flex;
     flex-direction: column;
-    gap: var(--padding-sm);
+    gap: var(--padding-md);
     padding-inline: 0;
 
     label {
@@ -167,9 +189,14 @@ html {
       transition:
         color var(--transition-delay) ease-in,
         background-color var(--transition-delay) ease-in,
-        border-color var(--transition-delay) ease-in;
+        border-color var(--transition-delay) ease-in,
+        transform var(--transition-out-delay) ease-out,
+        box-shadow var(--transition-out-delay) ease-out;
       display: flex;
       justify-content: space-between;
+
+      box-shadow: var(--shadow-elevation-medium);
+      will-change: transform;
 
       .filter-count {
         display: grid;
@@ -204,6 +231,12 @@ html {
         color: var(--theme-color);
         background-color: var(--color-gray-200);
       }
+    }
+
+    .filter:hover,
+    input[type='radio']:checked + .filter {
+      transform: translate(-3px, -2px) scale(1.01);
+      box-shadow: var(--shadow-elevation-high);
     }
 
     input[type='radio']:not(:checked) + .filter {
@@ -241,6 +274,8 @@ html {
     border-radius: var(--border-radius);
     overflow: hidden;
     height: 100%;
+
+    box-shadow: var(--shadow-elevation-medium);
 
     @media (min-width: 950px) {
       flex-basis: calc(950px - 350px - 2 * var(--padding-md));
@@ -293,12 +328,14 @@ html {
         align-items: center;
         position: relative;
         gap: 8px;
+        cursor: pointer;
 
         background-color: var(--color-gray-100);
         border-radius: var(--border-radius);
         padding: var(--padding-sm);
 
         transition: filter var(--transition-out-delay) ease-out;
+        box-shadow: var(--shadow-elevation-medium);
 
         input[type='checkbox'] {
           opacity: 0;
