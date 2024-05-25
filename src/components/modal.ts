@@ -19,11 +19,14 @@ export class ModalDialog extends HTMLElement {
             margin: auto;
             height: fit-content;
             width: fit-content;
+            max-height: calc(100dvh - 16px);
+            max-width: calc(100dvw - 16px);
             border: none;
             border-radius: 6px;
             background-color: #fff;
             padding: 0;
             opacity: 0;
+            overflow: hidden;
             transform: translateY(-50px);
             transition:
                 opacity 275ms ease-out,
@@ -49,6 +52,10 @@ export class ModalDialog extends HTMLElement {
     // its open value, as well as its inner backdrop,
     // on component mount.
     this.open = !!this.open;
+
+    this.backdrop.addEventListener('click', () => {
+      this.open = false;
+    });
   }
 
   toggle() {
