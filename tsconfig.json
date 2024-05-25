@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES2015",
     "lib": ["DOM", "DOM.Iterable", "ScriptHost", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
