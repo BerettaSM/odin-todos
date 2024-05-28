@@ -27,6 +27,7 @@ export class ModalDialog extends HTMLElement {
             padding: 0;
             opacity: 0;
             overflow: hidden;
+            pointer-events: none;
             transform: translateY(-50px);
             transition:
                 opacity 275ms ease-out,
@@ -35,6 +36,7 @@ export class ModalDialog extends HTMLElement {
 
         :host([open]) .container {
             opacity: 1;
+            pointer-events: all;
             transform: translateY(0);
             transition-duration: 125ms;
         }

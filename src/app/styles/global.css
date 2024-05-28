@@ -66,7 +66,7 @@ h6 {
   --color-gray-1000: hsl(225, 15%, 15%);
 
   --color-success: hsl(151, 67%, 45%);
-  --color-attention: hsl(50, 99%, 50%);
+  --color-attention: hsl(46, 99%, 50%);
   --color-danger: hsl(0, 100%, 50%);
 
   --padding-sm: 8px;
@@ -433,6 +433,145 @@ button {
 
   &:active {
     transform: scale(0.85);
+  }
+}
+
+.modal-header,
+.modal-body,
+.modal-actions {
+  padding: var(--padding-md);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    to right,
+    var(--theme-color-dark),
+    var(--theme-color)
+  );
+  color: var(--color-gray-200);
+}
+
+.modal-body {
+  width: min(calc(100dvw - var(--padding-sm) * 2), 400px);
+  max-height: 70dvh;
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  > :first-child {
+    margin-inline-start: auto;
+  }
+
+  button {
+    --background: var(--theme-color-dark);
+    --color: var(--color-gray-100);
+
+    color: var(--color);
+    background-color: var(--background);
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    padding: var(--padding-sm) var(--padding-md);
+
+    transition:
+      filter var(--transition-in-delay) ease-out,
+      background-color var(--transition-out-delay) ease-out,
+      color var(--transition-out-delay) ease-out;
+
+    &.ghost {
+      color: var(--background);
+      background-color: transparent;
+      border-color: var(--background);
+    }
+
+    &.attention {
+      --background: var(--color-attention);
+    }
+
+    &.danger {
+      --background: var(--color-danger);
+    }
+
+    &.success {
+      --background: var(--color-success);
+    }
+
+    &:not(.ghost):hover {
+      filter: brightness(0.9);
+    }
+
+    &.ghost:hover {
+      background-color: var(--background);
+      color: var(--color);
+    }
+
+    &:hover {
+      transition-duration: var(--transition-in-delay);
+    }
+  }
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column-reverse;
+
+  padding-block: var(--padding-sm);
+
+  &:first-of-type {
+    padding-block-start: var(--padding-md);
+  }
+
+  &:last-of-type {
+    padding-block-end: var(--padding-md);
+  }
+
+  label {
+    color: var(--color-gray-500);
+  }
+
+  input,
+  textarea,
+  select {
+    color: var(--color-gray-500);
+    border: 2px solid var(--color-gray-300);
+    border-radius: var(--border-radius);
+    padding: var(--padding-sm);
+
+    &::placeholder {
+      color: var(--color-gray-300);
+    }
+
+    &:focus-visible {
+      outline-color: var(--theme-color);
+    }
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  select {
+    cursor: pointer;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    color-scheme: dark;
+    cursor: pointer;
+    background-color: var(--color-gray-300);
+    padding: var(--padding-sm);
+    border-radius: 50%;
+    transition: background-color var(--transition-out-delay) ease-out;
+  }
+
+  input[type='date']:hover::-webkit-calendar-picker-indicator {
+    background-color: var(--theme-color);
+    transition-duration: var(--transition-in-delay);
   }
 }
 

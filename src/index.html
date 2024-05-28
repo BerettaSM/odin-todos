@@ -128,6 +128,43 @@
 
     </div>
 
+    <modal-dialog open>
+        <form id="add-todo-form">
+            <header class="modal-header">
+                <h2>Add todo</h2>
+                <button type="button" aria-label="Close modal" class="action-button">
+                    <i class="fa-solid fa-xmark fa-lg close-icon"></i>
+                </button>
+            </header>
+            <section class="modal-body">
+                <div class="form-control">
+                    <input type="text" name="todo-title" id="todo-title" placeholder="Some placeholder">
+                    <label for="todo-title">Title</label>
+                </div>
+                <div class="form-control">
+                    <textarea name="todo-description" id="todo-description" placeholder="Some placeholder"></textarea>
+                    <label for="todo-description">Description</label>
+                </div>
+                <div class="form-control">
+                    <input type="date" name="todo-due-date" id="todo-due-date">
+                    <label for="todo-due-date">Due Date</label>
+                </div>
+                <div class="form-control">
+                    <select name="todo-priority" id="todo-priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    <label for="todo-title">Priority</label>
+                </div>
+            </section>
+            <div class="modal-actions">
+                <button type="button" class="ghost">Cancel</button>
+                <button class="success">Add todo</button>
+            </div>
+        </form>
+    </modal-dialog>
+
 </body>
 
 </html>
