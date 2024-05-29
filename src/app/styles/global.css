@@ -68,6 +68,7 @@ h6 {
   --color-success: hsl(151, 67%, 45%);
   --color-attention: hsl(46, 99%, 50%);
   --color-danger: hsl(0, 100%, 50%);
+  --color-danger-light: hsl(0, 90%, 70%);
 
   --padding-sm: 8px;
   --padding-md: 16px;
@@ -533,6 +534,7 @@ button {
 
   label {
     color: var(--color-gray-500);
+    transition: color var(--transition-in-delay) ease-in-out;
   }
 
   input,
@@ -542,6 +544,11 @@ button {
     border: 2px solid var(--color-gray-300);
     border-radius: var(--border-radius);
     padding: var(--padding-sm);
+
+    transition:
+      color var(--transition-out-delay) ease-in-out,
+      border-color var(--transition-out-delay) ease-in-out,
+      outline-color var(--transition-out-delay) ease-in-out;
 
     &::placeholder {
       color: var(--color-gray-300);
@@ -571,6 +578,21 @@ button {
 
   input[type='date']:hover::-webkit-calendar-picker-indicator {
     background-color: var(--theme-color);
+    transition-duration: var(--transition-in-delay);
+  }
+
+  input.invalid,
+  textarea.invalid,
+  select.invalid {
+    border-color: var(--color-danger);
+    color: var(--color-danger-light);
+    transition-duration: var(--transition-in-delay);
+  }
+
+  input.invalid + label,
+  textarea.invalid + label,
+  select.invalid + label {
+    color: var(--color-danger-light);
     transition-duration: var(--transition-in-delay);
   }
 }
