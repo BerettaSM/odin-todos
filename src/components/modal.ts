@@ -1,67 +1,31 @@
-import { Backdrop } from './backdrop';
+import './modal-style.css';
+import { extractFormData } from '../utils/form';
 
-export class ModalDialog extends HTMLElement {
-  private backdrop: Backdrop;
-  private container: HTMLDivElement;
-
-  constructor() {
-    super();
-    this.container = document.createElement('div');
-    this.container.classList.add('container');
-    this.backdrop = document.createElement('modal-backdrop') as Backdrop;
-    const root = this.attachShadow({ mode: 'open' });
-    const style = document.createElement('style');
-    style.textContent = `
-        .container {
-            z-index: 1;
-            position: fixed;
-            inset: 0;
-            margin: auto;
-            height: fit-content;
-            width: fit-content;
-            max-height: calc(100dvh - 16px);
-            max-width: calc(100dvw - 16px);
-            border: none;
-            border-radius: 6px;
-            background-color: #fff;
-            padding: 0;
-            opacity: 0;
-            overflow: hidden;
-            pointer-events: none;
-            transform: translateY(-50px);
-            transition:
-                opacity 275ms ease-out,
-                transform 275ms ease-out;
-        }
-
-        :host([open]) .container {
-            opacity: 1;
-            pointer-events: all;
-            transform: translateY(0);
-            transition-duration: 125ms;
-        }
-    `;
-    this.container.innerHTML = '<slot></slot>';
-    root.append(style, this.backdrop, this.container);
-  }
-
+export class ModalDialog extends HTMLFormElement {
   static get tag() {
     return 'modal-dialog';
   }
 
   connectedCallback() {
-    // The following line forces the backdrop to update
-    // its open value, as well as its inner backdrop,
-    // on component mount.
-    this.open = !!this.open;
+    const closeButton = this.querySelectorAll(
+      'button[data-action="close"]',
+    ) as NodeListOf<HTMLButtonElement>;
 
-    this.backdrop.addEventListener('click', () => {
-      this.open = false;
+    closeButton.forEach((button) => {
+      button.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('modal-cancel'));
+      });
     });
-  }
 
-  toggle() {
-    this.backdrop.open = !this.backdrop.open;
+    this.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = extractFormData(this);
+      this.dispatchEvent(
+        new CustomEvent('modal-confirm', {
+          detail: data,
+        }),
+      );
+    });
   }
 
   get open() {
@@ -74,6 +38,5 @@ export class ModalDialog extends HTMLElement {
     } else {
       this.removeAttribute('open');
     }
-    this.backdrop.open = value;
   }
 }
