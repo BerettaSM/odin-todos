@@ -1,5 +1,5 @@
 import './modal-style.css';
-import { extractFormData } from '../utils/form';
+import { extractFormData } from '../utils';
 
 export class ModalDialog extends HTMLFormElement {
   static get tag() {
