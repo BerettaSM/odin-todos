@@ -8,6 +8,7 @@ export interface SubmittedTodo {
 }
 
 export interface Todo extends Omit<SubmittedTodo, 'date'> {
+  id: string;
   date: Date;
   done?: boolean;
 }
