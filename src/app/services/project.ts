@@ -1,4 +1,4 @@
-import { SubmittedProject } from '../domain';
+import { type SubmittedProject } from '../domain';
 import { type ProjectRepository } from '../repositories';
 
 export class ProjectService {

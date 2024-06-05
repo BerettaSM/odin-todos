@@ -1,7 +1,7 @@
+import { type Project, type SubmittedProject } from '../domain';
+import { type ProjectRepository } from './project';
 import { findOnLocalStorage, saveOnLocalStorage } from '../../utils';
-import { Project, SubmittedProject } from '../domain';
 import { ObjectNotFoundError, ValidationError } from '../errors';
-import { ProjectRepository } from './project';
 
 export class LocalStorageProjectRepository implements ProjectRepository {
   private static lsKey = '@PROJECT_REPO' as const;

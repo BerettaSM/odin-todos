@@ -1,4 +1,4 @@
-import { Project, SubmittedProject } from '../domain';
+import { type Project, type SubmittedProject } from '../domain';
 
 export interface ProjectRepository {
   findAll(): Project[];

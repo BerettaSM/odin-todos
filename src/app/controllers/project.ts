@@ -1,4 +1,4 @@
-import { SubmittedProject } from '../domain';
+import { type SubmittedProject } from '../domain';
 import { ProjectService } from '../services';
 import { createProjectElement } from '../../dom';
 
@@ -11,6 +11,9 @@ export class ProjectController {
   // Event handlers
   renderAll() {
     this.controlledNode.innerHTML = '';
+
+    // TODO: Filter out projects that have no todo,
+    //       no need to render them.
 
     const allProjects = this.service.findAll();
 
