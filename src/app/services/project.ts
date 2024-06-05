@@ -1,5 +1,5 @@
 import { SubmittedProject } from '../domain';
-import { ProjectRepository } from '../repositories';
+import { type ProjectRepository } from '../repositories';
 
 export class ProjectService {
   constructor(private repo: ProjectRepository) {}
