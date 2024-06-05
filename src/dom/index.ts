@@ -1,4 +1,4 @@
-import { Project, Todo } from '../app/domain';
+import { type Project, type Todo } from '../app/domain';
 import { type ElementConfig } from '../types';
 
 export function createProjectElement(project: Project) {
