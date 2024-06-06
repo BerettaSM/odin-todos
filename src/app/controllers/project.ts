@@ -24,7 +24,7 @@ export class ProjectController {
   }
 
   addNewProject(project: SubmittedProject) {
-    const newProject = this.service.create(project);
+    const newProject = this.service.save(project);
     const ele = createProjectElement(newProject);
     this.controlledNode.appendChild(ele);
   }
