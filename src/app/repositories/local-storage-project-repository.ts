@@ -1,15 +1,28 @@
 import { type Project, type SubmittedProject } from '../domain';
 import { type ProjectRepository } from './project';
 import { findOnLocalStorage, saveOnLocalStorage } from '../../utils';
-import { ObjectNotFoundError, ValidationError } from '../errors';
+import {
+  ApplicationError,
+  ObjectNotFoundError,
+  ValidationError,
+} from '../errors';
 
 export class LocalStorageProjectRepository implements ProjectRepository {
   private static lsKey = '@PROJECT_REPO' as const;
   private static defaultProjectKey = '@DEFAULT_PROJECT' as const;
 
   private static projects: Project[] = [];
+  private static defaultProject: Project;
 
   static {
+    this.defaultProject =
+      findOnLocalStorage<Project>(this.defaultProjectKey) ??
+      ({
+        id: this.defaultProjectKey,
+        title: 'Default Project',
+        todos: [],
+      } satisfies Project);
+
     const projects = findOnLocalStorage<Project[]>(this.lsKey);
     if (projects !== null) {
       this.projects.push(...projects);
@@ -17,11 +30,12 @@ export class LocalStorageProjectRepository implements ProjectRepository {
   }
 
   findAll(): Project[] {
-    return LocalStorageProjectRepository.projects;
+    const { projects, defaultProject } = LocalStorageProjectRepository;
+    return [defaultProject, ...projects];
   }
 
   findById(id: string): Project {
-    const { projects } = LocalStorageProjectRepository;
+    const projects = this.findAll();
     const foundProject = projects.find((p) => p.id === id);
     if (!foundProject) {
       throw new ObjectNotFoundError(`Project with id "${id}" does not exist.`);
@@ -30,7 +44,11 @@ export class LocalStorageProjectRepository implements ProjectRepository {
   }
 
   deleteById(id: string): void {
-    const { projects, lsKey } = LocalStorageProjectRepository;
+    const { projects, lsKey, defaultProjectKey } =
+      LocalStorageProjectRepository;
+    if (id === defaultProjectKey) {
+      throw new ApplicationError('Cannot delete default project.');
+    }
     const foundProjectIndex = projects.findIndex((p) => p.id === id);
     if (foundProjectIndex === -1) {
       throw new ObjectNotFoundError(`Project with id "${id}" does not exist.`);
@@ -40,9 +58,12 @@ export class LocalStorageProjectRepository implements ProjectRepository {
   }
 
   save(project: SubmittedProject | Project): Project {
-    const { projects, lsKey } = LocalStorageProjectRepository;
+    const { projects, lsKey, defaultProject, defaultProjectKey } =
+      LocalStorageProjectRepository;
 
     let savedProject: Project;
+    let savedSubject: Project[] | Project;
+    let projectKey: typeof lsKey | typeof defaultProjectKey;
 
     if (!('id' in project)) {
       const foundProject = projects.find((p) => p.title === project.title);
@@ -51,12 +72,17 @@ export class LocalStorageProjectRepository implements ProjectRepository {
           `A project with title "${project.title}" already exists.`,
         );
       }
+      projectKey = lsKey;
+      savedSubject = projects;
       savedProject = {
         id: crypto.randomUUID(),
         title: project.title,
         todos: [],
       };
       projects.push(savedProject);
+    } else if (project.id === defaultProjectKey) {
+      projectKey = defaultProjectKey;
+      savedProject = savedSubject = defaultProject;
     } else {
       const foundProjectIndex = projects.findIndex((p) => p.id === project.id);
       if (foundProjectIndex === -1) {
@@ -64,11 +90,13 @@ export class LocalStorageProjectRepository implements ProjectRepository {
           `Project with id "${project.id}" does not exist.`,
         );
       }
+      projectKey = lsKey;
+      savedSubject = projects;
       savedProject = project;
       projects.splice(foundProjectIndex, 1, savedProject);
     }
 
-    saveOnLocalStorage(lsKey, projects);
+    saveOnLocalStorage(projectKey, savedSubject);
 
     return savedProject;
   }
