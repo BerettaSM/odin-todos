@@ -11,22 +11,24 @@ export class LocalStorageProjectRepository implements ProjectRepository {
   private static lsKey = '@PROJECT_REPO' as const;
   private static defaultProjectKey = '@DEFAULT_PROJECT' as const;
 
-  private static projects: Project[] = [];
+  private static projects: Project[];
   private static defaultProject: Project;
 
   static {
-    this.defaultProject =
-      findOnLocalStorage<Project>(this.defaultProjectKey) ??
-      ({
+    const defaultProject = findOnLocalStorage<Project>(this.defaultProjectKey);
+
+    if (defaultProject) {
+      this.defaultProject = defaultProject;
+    } else {
+      this.defaultProject = {
         id: this.defaultProjectKey,
         title: 'Default Project',
         todos: [],
-      } satisfies Project);
-
-    const projects = findOnLocalStorage<Project[]>(this.lsKey);
-    if (projects !== null) {
-      this.projects.push(...projects);
+      } satisfies Project;
+      saveOnLocalStorage(this.defaultProjectKey, this.defaultProject);
     }
+
+    this.projects = findOnLocalStorage<Project[]>(this.lsKey) ?? [];
   }
 
   findAll(): Project[] {

@@ -5,10 +5,10 @@ export interface SubmittedTodo {
   description: string;
   date: string;
   priority: TodoPriority;
+  projectId: string;
 }
 
-export interface Todo extends Omit<SubmittedTodo, 'date'> {
+export interface Todo extends SubmittedTodo {
   id: string;
-  date: Date;
-  done?: boolean;
+  done: boolean;
 }
