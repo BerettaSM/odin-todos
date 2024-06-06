@@ -540,6 +540,7 @@ button {
   input,
   textarea,
   select {
+    background-color: var(--color-gray-200);
     color: var(--color-gray-500);
     border: 2px solid var(--color-gray-300);
     border-radius: var(--border-radius);
@@ -567,7 +568,7 @@ button {
     cursor: pointer;
   }
 
-  input[type='date']::-webkit-calendar-picker-indicator {
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
     color-scheme: dark;
     cursor: pointer;
     background-color: var(--color-gray-300);
@@ -576,7 +577,7 @@ button {
     transition: background-color var(--transition-out-delay) ease-out;
   }
 
-  input[type='date']:hover::-webkit-calendar-picker-indicator {
+  input[type='datetime-local']:hover::-webkit-calendar-picker-indicator {
     background-color: var(--theme-color);
     transition-duration: var(--transition-in-delay);
   }
