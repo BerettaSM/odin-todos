@@ -1,12 +1,15 @@
 import { type Todo, type SubmittedTodo } from '../domain';
 import { type ProjectRepository } from '../repositories';
 import { ObjectNotFoundError } from '../errors';
+import { validateTodo } from '../validation';
 
 export class TodoService {
   constructor(private repo: ProjectRepository) {}
 
   save(todo: SubmittedTodo | Todo) {
     const project = this.repo.findById(todo.projectId);
+
+    validateTodo(todo);
 
     let savedTodo: Todo;
 

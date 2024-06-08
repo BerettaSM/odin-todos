@@ -8,6 +8,8 @@ import { LocalStorageProjectRepository } from './repositories';
 import { ProjectService, TodoService } from './services';
 import { ProjectController } from './controllers';
 import { createElement } from '../dom';
+import { updateLocalDateInput } from '../utils/dom';
+import { ValidationError } from './errors';
 
 {
   let shouldRepopulateProjects = true;
@@ -30,6 +32,9 @@ import { createElement } from '../dom';
   const addTodoModal = document.getElementById(
     'add-todo-dialog',
   ) as ModalDialog;
+  const projectDueDateInput = addTodoModal.querySelector(
+    'input#todo-due-date',
+  ) as HTMLInputElement;
   const projectSelectInput = addTodoModal.querySelector(
     'select#todo-project',
   ) as HTMLSelectElement;
@@ -45,18 +50,25 @@ import { createElement } from '../dom';
       repopulateProjectOptions();
       shouldRepopulateProjects = false;
     }
+    updateLocalDateInput(projectDueDateInput, 3);
     addTodoModal.open = true;
     backdrop.open = true;
   });
 
   addTodoModal.addEventListener('modal-confirm', (event) => {
     const { detail: todo } = event as CustomEvent<SubmittedTodo>;
+
     console.log(todo);
+
     try {
       controller.addNewTodo(todo);
       closeOverlay();
     } catch (err) {
-      console.error(err);
+      if (err instanceof ValidationError) {
+        addTodoModal.onValidationError(err.errors);
+      } else {
+        throw err;
+      }
     }
   });
 
@@ -72,13 +84,16 @@ import { createElement } from '../dom';
   addProjectModal.addEventListener('modal-confirm', (event) => {
     const { detail: project } = event as CustomEvent<SubmittedProject>;
 
-    // validate and add
     try {
       controller.addNewProject(project);
       shouldRepopulateProjects = true;
       closeOverlay();
     } catch (err) {
-      console.error(err);
+      if (err instanceof ValidationError) {
+        addProjectModal.onValidationError(err.errors);
+      } else {
+        throw err;
+      }
     }
   });
 
