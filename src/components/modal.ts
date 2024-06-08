@@ -2,30 +2,57 @@ import './modal-style.css';
 import { extractFormData } from '../utils';
 
 export class ModalDialog extends HTMLFormElement {
+  static get CONFIRM() {
+    return 'modal-confirm';
+  }
+
+  static get CANCEL() {
+    return 'modal-cancel';
+  }
+
   static get tag() {
     return 'modal-dialog';
   }
 
   connectedCallback() {
-    const closeButton = this.querySelectorAll(
-      'button[data-action="close"]',
-    ) as NodeListOf<HTMLButtonElement>;
+    this.addEventListener('submit', this.onConfirm);
+    this.addEventListener('click', this.onCloseClick);
+  }
 
-    closeButton.forEach((button) => {
-      button.addEventListener('click', () => {
-        this.dispatchEvent(new CustomEvent('modal-cancel'));
-      });
-    });
+  disconnectedCallback() {
+    this.removeEventListener('submit', this.onConfirm);
+    this.removeEventListener('click', this.onCloseClick);
+  }
 
-    this.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const data = extractFormData(this);
-      this.dispatchEvent(
-        new CustomEvent('modal-confirm', {
-          detail: data,
-        }),
-      );
-    });
+  private onConfirm = (event: SubmitEvent) => {
+    event.preventDefault();
+    const data = extractFormData(this);
+    this.dispatchEvent(
+      new CustomEvent(ModalDialog.CONFIRM, {
+        detail: data,
+      }),
+    );
+  };
+
+  private onCancel = () => {
+    this.dispatchEvent(new CustomEvent(ModalDialog.CANCEL));
+  };
+
+  private onCloseClick = (event: MouseEvent) => {
+    if (!event.target || !this.isCloseButton(event.target)) {
+      return;
+    }
+    event.stopImmediatePropagation();
+
+    this.onCancel();
+  };
+
+  private isCloseButton(target: EventTarget): target is HTMLButtonElement {
+    return (
+      'dataset' in target &&
+      target.dataset instanceof DOMStringMap &&
+      target.dataset.action === 'close'
+    );
   }
 
   get open() {
