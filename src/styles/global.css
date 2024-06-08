@@ -608,6 +608,20 @@ i.icon {
   pointer-events: none;
 }
 
+ul.errors {
+  list-style: none;
+  padding: 0;
+  color: var(--color-danger-light);
+
+  & li {
+    padding-block: var(--padding-sm);
+  }
+
+  & li::before {
+    content: '* ';
+  }
+}
+
 @media (min-width: 500px) {
   ::-webkit-scrollbar {
     width: 10px;
