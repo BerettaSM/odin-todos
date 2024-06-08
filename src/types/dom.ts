@@ -5,5 +5,5 @@ export type ElementConfig = {
   properties?: {
     [K: string]: Nullable<string>;
   };
-  children?: ElementConfig[] | string | undefined;
+  children?: ElementConfig[] | HTMLElement[] | string | undefined;
 };
