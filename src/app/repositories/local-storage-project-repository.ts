@@ -74,9 +74,9 @@ export class LocalStorageProjectRepository implements ProjectRepository {
     if (!('id' in project)) {
       const foundProject = projects.find((p) => p.title === project.title);
       if (foundProject) {
-        throw new ValidationError(
-          `A project with title "${project.title}" already exists.`,
-        );
+        throw new ValidationError({
+          title: ['This title already exists'],
+        });
       }
       projectKey = lsKey;
       savedSubject = projects;
