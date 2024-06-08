@@ -29,3 +29,21 @@ export function randomChoice<T>(arr: T[]) {
   const randomIndex = getRandomNumber(arr.length);
   return arr[randomIndex];
 }
+
+// See: https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435
+/**
+ * This functions converts a date into a local date time string, which
+ * is set to local time.
+ *
+ * @param date The date that will be used to generate the time string.
+ * @returns A formatted time string.
+ */
+export function convertToDateTimeLocalString(date: Date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
