@@ -1,15 +1,15 @@
 import { type Project, type Todo } from '../app/domain';
 import { type ElementConfig } from '../types';
+import { classifyTodos } from '../utils';
 
 export function createProjectElement(project: Project) {
-  // TODO: Create a classify todo function to separate all todos
-  //       in a project according to its due date.
+  const todoSections = classifyTodos(project.todos);
 
   return createElement({
     tag: 'article',
     properties: {
       class: 'project',
-      'project-id': project.id,
+      'data-project-id': project.id,
     },
     children: [
       {
@@ -27,23 +27,26 @@ export function createProjectElement(project: Project) {
             properties: {
               class: 'project-actions',
             },
-            children: [
-              {
-                tag: 'button',
-                properties: {
-                  class: 'action-button',
-                  'aria-label': 'Delete project',
-                },
-                children: [
-                  {
-                    tag: 'i',
-                    properties: {
-                      class: 'fa-solid fa-trash fa-lg close-icon',
+            children:
+              project.id !== '@DEFAULT_PROJECT'
+                ? [
+                    {
+                      tag: 'button',
+                      properties: {
+                        class: 'action-button',
+                        'aria-label': 'Delete project',
+                      },
+                      children: [
+                        {
+                          tag: 'i',
+                          properties: {
+                            class: 'fa-solid fa-trash fa-lg close-icon',
+                          },
+                        },
+                      ],
                     },
-                  },
-                ],
-              },
-            ],
+                  ]
+                : undefined,
           },
         ],
       },
@@ -52,9 +55,27 @@ export function createProjectElement(project: Project) {
         properties: {
           class: 'todo-sections',
         },
-        children: [
-          // Create a section here
-        ],
+        children: todoSections.map(({ title, todos }) => {
+          return {
+            tag: 'section',
+            properties: {
+              class: 'todo-section',
+            },
+            children: [
+              {
+                tag: 'h3',
+                children: title,
+              },
+              {
+                tag: 'div',
+                properties: {
+                  class: 'todos',
+                },
+                children: todos.map(createTodoElement),
+              },
+            ],
+          };
+        }),
       },
     ],
   });
@@ -64,7 +85,8 @@ export function createTodoElement(todo: Todo) {
   return createElement({
     tag: 'article',
     properties: {
-      'todo-id': todo.id,
+      'data-todo-id': todo.id,
+      class: 'todo',
     },
     children: [
       {
@@ -168,9 +190,7 @@ export function createTodoSectionElement(title: string, todos?: Todo[]) {
         properties: {
           class: 'todos',
         },
-        children: todos
-          ? (todos.map(createTodoElement) as unknown as ElementConfig[])
-          : undefined,
+        children: todos ? todos.map(createTodoElement) : undefined,
       },
     ],
   });
@@ -187,7 +207,11 @@ export function createElement({ tag, children, properties }: ElementConfig) {
     element.textContent = children;
   } else if (Array.isArray(children)) {
     for (const child of children) {
-      element.appendChild(createElement(child));
+      if ('tag' in child) {
+        element.appendChild(createElement(child));
+      } else {
+        element.appendChild(child);
+      }
     }
   }
   return element;
