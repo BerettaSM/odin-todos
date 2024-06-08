@@ -1,6 +1,10 @@
 import { type Project, type SubmittedProject } from '../domain';
 import { type ProjectRepository } from './project';
-import { findOnLocalStorage, saveOnLocalStorage } from '../../utils';
+import {
+  findOnLocalStorage,
+  saveOnLocalStorage,
+  generateDummyTodos,
+} from '../../utils';
 import {
   ApplicationError,
   ObjectNotFoundError,
@@ -23,7 +27,7 @@ export class LocalStorageProjectRepository implements ProjectRepository {
       this.defaultProject = {
         id: this.defaultProjectKey,
         title: 'Default Project',
-        todos: [],
+        todos: generateDummyTodos(15),
       } satisfies Project;
       saveOnLocalStorage(this.defaultProjectKey, this.defaultProject);
     }
