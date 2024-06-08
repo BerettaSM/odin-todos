@@ -10,6 +10,10 @@ export class ModalDialog extends HTMLFormElement {
     return 'modal-cancel';
   }
 
+  static get VALIDATION_ERROR() {
+    return 'modal-validation-error';
+  }
+
   static get tag() {
     return 'modal-dialog';
   }
@@ -17,11 +21,44 @@ export class ModalDialog extends HTMLFormElement {
   connectedCallback() {
     this.addEventListener('submit', this.onConfirm);
     this.addEventListener('click', this.onCloseClick);
+    this.addEventListener('input', this.onInputChange);
   }
 
   disconnectedCallback() {
     this.removeEventListener('submit', this.onConfirm);
     this.removeEventListener('click', this.onCloseClick);
+    this.removeEventListener('input', this.onInputChange);
+  }
+
+  onValidationError = (errors: Record<string, string[]>) => {
+    for (const [name, arr] of Object.entries(errors)) {
+      const input = this.querySelector(`[name="${name}"]`) as HTMLInputElement;
+      input.classList.add('invalid');
+      const errorsList = input.parentElement!.querySelector(
+        'ul.errors',
+      ) as HTMLUListElement;
+      errorsList.innerHTML = '';
+      for (const err of arr) {
+        const li = document.createElement('li');
+        li.textContent = err;
+        errorsList.appendChild(li);
+      }
+    }
+  };
+
+  private clearErrors() {
+    const inputs = this.querySelectorAll(
+      'input[name]',
+    ) as NodeListOf<HTMLInputElement>;
+    for (const input of inputs) {
+      this.clearInputError(input);
+    }
+  }
+
+  private clearInputError(input: HTMLInputElement) {
+    input.classList.remove('invalid');
+    const errorsList = input.parentElement!.querySelector('ul.errors');
+    errorsList && (errorsList.innerHTML = '');
   }
 
   private onConfirm = (event: SubmitEvent) => {
@@ -47,11 +84,26 @@ export class ModalDialog extends HTMLFormElement {
     this.onCancel();
   };
 
+  private onInputChange = (event: Event) => {
+    if (!event.target || !this.isInput(event.target)) {
+      return;
+    }
+    this.clearInputError(event.target);
+  };
+
   private isCloseButton(target: EventTarget): target is HTMLButtonElement {
     return (
       'dataset' in target &&
       target.dataset instanceof DOMStringMap &&
       target.dataset.action === 'close'
+    );
+  }
+
+  private isInput(target: EventTarget): target is HTMLInputElement {
+    return (
+      'tagName' in target &&
+      typeof target.tagName === 'string' &&
+      ['INPUT', 'TEXTAREA'].includes(target.tagName)
     );
   }
 
@@ -64,6 +116,7 @@ export class ModalDialog extends HTMLFormElement {
       this.setAttribute('open', '');
     } else {
       this.removeAttribute('open');
+      this.clearErrors();
     }
   }
 }
