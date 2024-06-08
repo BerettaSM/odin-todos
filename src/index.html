@@ -128,75 +128,75 @@
 
     </div>
 
-    <modal-dialog id="add-todo-dialog">
-        <form id="add-todo-form">
-            <header class="modal-header">
-                <h2>Add todo</h2>
-                <button type="button" aria-label="Close modal" class="action-button">
-                    <i class="fa-solid fa-xmark fa-lg close-icon"></i>
-                </button>
-            </header>
-            <section class="modal-body">
-                <div class="form-control">
-                    <input type="text" name="title" id="todo-title" placeholder="Enter title">
-                    <label for="todo-title">Title</label>
-                </div>
-                <div class="form-control">
-                    <textarea name="description" id="todo-description" placeholder="Enter description"></textarea>
-                    <label for="todo-description">Description</label>
-                </div>
-                <div class="form-control">
-                    <input type="date" name="date" id="todo-due-date">
-                    <label for="todo-due-date">Due Date</label>
-                </div>
-                <div class="form-control">
-                    <select name="priority" id="todo-priority">
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                    <label for="todo-priority">Priority</label>
-                </div>
-            </section>
-            <div class="modal-actions">
-                <button type="button" class="ghost">Cancel</button>
-                <button class="success">Add todo</button>
-            </div>
-        </form>
-    </modal-dialog>
+    <modal-backdrop id="backdrop"></modal-backdrop>
 
-    <modal-dialog id="add-project-dialog">
-        <form id="add-project-form">
-            <header class="modal-header">
-                <h2>Add project</h2>
-                <button type="button" aria-label="Close modal" class="action-button">
-                    <i class="fa-solid fa-xmark fa-lg close-icon"></i>
-                </button>
-            </header>
-            <section class="modal-body">
-                <div class="form-control">
-                    <input type="text" name="title" id="project-title" placeholder="Enter project name">
-                    <label for="project-title">Title</label>
-                </div>
-            </section>
-            <div class="modal-actions">
-                <button type="button" class="ghost">Cancel</button>
-                <button class="success">Add project</button>
+    <form is="modal-dialog" id="add-todo-dialog">
+        <header class="modal-header">
+            <h2>Add todo</h2>
+            <button type="button" aria-label="Close modal" class="action-button" data-action="close">
+                <i class="fa-solid fa-xmark fa-lg close-icon"></i>
+            </button>
+        </header>
+        <section class="modal-body">
+            <div class="form-control">
+                <input type="text" name="title" id="todo-title" placeholder="Enter title">
+                <label for="todo-title">Title</label>
             </div>
-        </form>
-    </modal-dialog>
+            <div class="form-control">
+                <textarea name="description" id="todo-description" placeholder="Enter description"></textarea>
+                <label for="todo-description">Description</label>
+            </div>
+            <div class="form-control">
+                <input type="datetime-local" name="date" id="todo-due-date">
+                <label for="todo-due-date">Due Date</label>
+            </div>
+            <div class="form-control">
+                <select name="priority" id="todo-priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <label for="todo-priority">Priority</label>
+            </div>
+            <div class="form-control">
+                <select name="projectId" id="todo-project"></select>
+                <label for="todo-project">Project</label>
+            </div>
+        </section>
+        <div class="modal-actions">
+            <button type="button" class="ghost" data-action="close">Cancel</button>
+            <button class="success">Add todo</button>
+        </div>
+    </form>
 
-    <modal-dialog id="delete-dialog">
-        <form id="delete-form">
-            <section class="modal-body">
-                <p id="delete-message">Are you sure you want to delete this?</p>
-            </section>
-            <div class="modal-actions">
-                <button type="button">Cancel</button>
-                <button class="danger ghost" id="confirm-delete-button">Delete</button>
+    <form is="modal-dialog" id="add-project-dialog">
+        <header class="modal-header">
+            <h2>Add project</h2>
+            <button type="button" aria-label="Close modal" class="action-button" data-action="close">
+                <i class="fa-solid fa-xmark fa-lg close-icon"></i>
+            </button>
+        </header>
+        <section class="modal-body">
+            <div class="form-control">
+                <input type="text" name="title" id="project-title" placeholder="Enter project name">
+                <label for="project-title">Title</label>
             </div>
-        </form>
-    </modal-dialog>
+        </section>
+        <div class="modal-actions">
+            <button type="button" class="ghost" data-action="close">Cancel</button>
+            <button class="success">Add project</button>
+        </div>
+    </form>
+
+    <form is="modal-dialog" id="delete-dialog">
+        <section class="modal-body">
+            <p id="delete-message">Are you sure you want to delete this?</p>
+        </section>
+        <div class="modal-actions">
+            <button type="button" data-action="close">Cancel</button>
+            <button class="danger ghost" id="confirm-delete-button">Delete</button>
+        </div>
+    </form>
 
 </body>
 
