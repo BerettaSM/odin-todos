@@ -10,6 +10,12 @@ export class ModalController {
 
   renderModal(config: ModalConfig) {
     const [backdrop, modal] = this.create(config);
+    setTimeout(() => {
+      /* A little trick to make the modal transition animation
+         play when it's mounted to the dom. */
+      modal.open = true;
+      backdrop.open = true;
+    }, 0);
     this.root.append(backdrop, modal);
   }
 
@@ -25,8 +31,6 @@ export class ModalController {
       >;
       inputs.forEach(config.processInputs);
     }
-    modal.open = true;
-    backdrop.open = true;
     return [backdrop, modal] as const;
   }
 

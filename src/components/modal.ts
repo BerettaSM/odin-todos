@@ -50,15 +50,6 @@ export class ModalDialog extends HTMLFormElement {
     }
   };
 
-  private clearErrors() {
-    const inputs = this.querySelectorAll(
-      'input[name]',
-    ) as NodeListOf<HTMLInputElement>;
-    for (const input of inputs) {
-      this.clearInputError(input);
-    }
-  }
-
   private clearInputError(input: HTMLInputElement) {
     input.classList.remove('invalid');
     const errorsList = input.parentElement!.querySelector('ul.errors');
@@ -120,7 +111,6 @@ export class ModalDialog extends HTMLFormElement {
       this.setAttribute('open', '');
     } else {
       this.removeAttribute('open');
-      this.clearErrors();
     }
   }
 }
