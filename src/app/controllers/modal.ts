@@ -17,6 +17,14 @@ export class ModalController {
     const modal = this.createModal(config);
     const backdrop = new Backdrop();
     this.setupListeners(modal, backdrop, config);
+    if (config.processInputs) {
+      const inputs = modal.querySelectorAll(
+        'input,textarea,select',
+      ) as NodeListOf<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >;
+      inputs.forEach(config.processInputs);
+    }
     modal.open = true;
     backdrop.open = true;
     return [backdrop, modal] as const;
