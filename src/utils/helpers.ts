@@ -1,3 +1,47 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
+// See: https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435
+/**
+ * This functions converts a date into a local date time string, which
+ * is set to local time.
+ *
+ * @param date The date that will be used to generate the time string.
+ * @returns A formatted time string.
+ */
+export function convertToDateTimeLocalString(date: Date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+/**
+ * This functions creates a debounced version of the callback
+ * passed in.
+ *
+ * @param callback The callback to be called after delay has passed.
+ * @param delayMs The delay in milliseconds.
+ * @returns A debounced version of the callback passed in.
+ */
+export function debounce<F extends (...args: any) => any>(
+  callback: F,
+  delayMs: number = 1000,
+) {
+  let eventId: NodeJS.Timeout;
+  let timestamp = Infinity;
+
+  return function debounced(...args: Parameters<F>) {
+    if (Date.now() < timestamp + delayMs) clearTimeout(eventId);
+    timestamp = Date.now();
+    eventId = setTimeout(() => {
+      callback(...args);
+    }, delayMs);
+  };
+}
+
 /**
  *
  * @param max The max number to generate (exclusive).
@@ -28,22 +72,4 @@ export function randomChoice<T>(arr: T[]) {
   }
   const randomIndex = getRandomNumber(arr.length);
   return arr[randomIndex];
-}
-
-// See: https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435
-/**
- * This functions converts a date into a local date time string, which
- * is set to local time.
- *
- * @param date The date that will be used to generate the time string.
- * @returns A formatted time string.
- */
-export function convertToDateTimeLocalString(date: Date) {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
