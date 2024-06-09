@@ -1,4 +1,5 @@
 import './modal-style.css';
+
 import { extractFormData } from '../utils';
 
 export class ModalDialog extends HTMLFormElement {
@@ -32,7 +33,10 @@ export class ModalDialog extends HTMLFormElement {
 
   onValidationError = (errors: Record<string, string[]>) => {
     for (const [name, arr] of Object.entries(errors)) {
-      const input = this.querySelector(`[name="${name}"]`) as HTMLInputElement;
+      const input: HTMLInputElement | null = this.querySelector(
+        `[name="${name}"]`,
+      );
+      if (!input) continue;
       input.classList.add('invalid');
       const errorsList = input.parentElement!.querySelector(
         'ul.errors',
