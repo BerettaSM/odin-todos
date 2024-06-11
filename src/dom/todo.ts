@@ -3,7 +3,7 @@ import { type Todo } from '../app/domain';
 import { createElement } from '.';
 
 export function createTodoElement(todo: Todo) {
-  return createElement({
+  const todoEle = createElement({
     tag: 'article',
     properties: {
       'data-todo-id': todo.id,
@@ -93,6 +93,14 @@ export function createTodoElement(todo: Todo) {
       },
     ],
   });
+  todoEle.addEventListener('animationend', function onBlinkEnd(event) {
+    const { animationName } = event as AnimationEvent;
+    if (animationName !== 'blink') {
+      return;
+    }
+    todoEle.classList.remove('blink');
+  });
+  return todoEle;
 }
 
 export function createTodoSectionElement(title: string, todos?: Todo[]) {

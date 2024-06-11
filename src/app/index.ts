@@ -47,6 +47,7 @@ import { updateLocalDateInput } from '../utils/dom';
           block: 'start',
           inline: 'center',
         });
+        ele.classList.add('blink');
       },
       processInputs(input) {
         switch (input.name) {

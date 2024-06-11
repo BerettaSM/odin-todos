@@ -66,6 +66,7 @@ h6 {
   --color-gray-1000: hsl(225, 15%, 15%);
 
   --color-success: hsl(151, 67%, 45%);
+  --color-success-light: hsla(151, 75%, 46%, 0.4);
   --color-attention: hsl(46, 99%, 50%);
   --color-danger: hsl(0, 100%, 50%);
   --color-danger-light: hsl(0, 90%, 70%);
@@ -338,6 +339,8 @@ html {
         transition: filter var(--transition-out-delay) ease-out;
         box-shadow: var(--shadow-elevation-medium);
 
+        scroll-margin: var(--padding-sm);
+
         input[type='checkbox'] {
           opacity: 0;
           height: 20px;
@@ -384,6 +387,13 @@ html {
       .todo:hover {
         transition-duration: var(--transition-in-delay);
         filter: brightness(0.9);
+      }
+
+      .todo.blink {
+        --blink-color-from: var(--color-gray-100);
+        --blink-color-to: var(--color-success-light);
+        animation: blink 2 400ms linear forwards;
+        animation-delay: 750ms;
       }
     }
   }
@@ -637,5 +647,18 @@ ul.errors {
 
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--theme-color-light);
+  }
+}
+
+@keyframes blink {
+  0% {
+    background-color: var(--blink-color-from);
+  }
+  35%,
+  70% {
+    background-color: var(--blink-color-to);
+  }
+  100% {
+    background-color: var(--blink-color-from);
   }
 }
