@@ -30,12 +30,14 @@ export class ProjectController {
   addNewProject(project: SubmittedProject) {
     const newProject = this.projectService.save(project);
     this.renderProject(newProject);
+    return newProject;
   }
 
   addNewTodo(todo: SubmittedTodo) {
     const newTodo = this.todoService.save(todo);
     const project = this.projectService.findById(newTodo.projectId);
     this.renderProject(project);
+    return newTodo;
   }
 
   renderProject(project: Project) {

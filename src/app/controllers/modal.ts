@@ -74,7 +74,7 @@ export class ModalController {
       const payload = 'detail' in event ? event.detail : null;
       try {
         onConfirm(payload);
-        close();
+        onClose();
       } catch (err) {
         if (err instanceof ValidationError) {
           modal.onValidationError(err.errors);
