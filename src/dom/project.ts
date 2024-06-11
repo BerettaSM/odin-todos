@@ -22,6 +22,9 @@ export function createProjectElement(project: Project) {
         children: [
           {
             tag: 'h2',
+            properties: {
+              class: 'project-title',
+            },
             children: project.title,
           },
           {
@@ -37,12 +40,13 @@ export function createProjectElement(project: Project) {
                       properties: {
                         class: 'action-button',
                         'aria-label': 'Delete project',
+                        'data-project-action': 'delete-project',
                       },
                       children: [
                         {
                           tag: 'i',
                           properties: {
-                            class: 'fa-solid fa-trash fa-lg close-icon',
+                            class: 'fa-solid fa-trash fa-lg icon close-icon',
                           },
                         },
                       ],

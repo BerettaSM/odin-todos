@@ -12,14 +12,14 @@ import { updateLocalDateInput } from '../utils/dom';
 {
   //   let shouldRepopulateProjects = true;
 
-  const controlledNode = document.querySelector('main.main') as HTMLElement;
+  const mainSection = document.querySelector('main.main') as HTMLElement;
   const repo = new LocalStorageProjectRepository();
   const projectService = new ProjectService(repo);
   const todoService = new TodoService(repo);
   const projectController = new ProjectController(
     projectService,
     todoService,
-    controlledNode,
+    mainSection,
   );
 
   projectController.renderAll();
@@ -44,7 +44,7 @@ import { updateLocalDateInput } from '../utils/dom';
         ) as HTMLElement;
         ele.scrollIntoView({
           behavior: 'smooth',
-          block: 'start',
+          block: 'nearest',
           inline: 'center',
         });
         ele.classList.add('blink');
@@ -78,6 +78,37 @@ import { updateLocalDateInput } from '../utils/dom';
       },
     });
   });
+
+  mainSection.addEventListener(
+    'click',
+    function onProjectDelete(event) {
+      const target = event.target as HTMLElement;
+      const action = target.getAttribute('data-project-action');
+      if (action !== 'delete-project') {
+        return;
+      }
+      event.stopImmediatePropagation();
+      const projectEle = target.closest('.project') as HTMLElement;
+      const projectId = projectEle.dataset.projectId!;
+      const project = projectService.findById(projectId);
+      const totalTodos = project.todos.length;
+
+      let message = `Delete "${project.title}" project?`;
+      if (totalTodos > 0) {
+        const noun = totalTodos === 1 ? 'todo' : 'todos';
+        message += ` A total of ${totalTodos} ${noun} will be deleted alongside it.`;
+      }
+
+      modalController.renderModal({
+        type: 'delete-confirm',
+        message,
+        onConfirm() {
+          projectController.deleteProject(projectId);
+        },
+      });
+    },
+    { capture: true },
+  );
 
   // =============================================================
 

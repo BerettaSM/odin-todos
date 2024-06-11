@@ -40,6 +40,14 @@ export class ProjectController {
     return newTodo;
   }
 
+  deleteProject(projectId: string) {
+    this.projectService.deleteById(projectId);
+    const ele = this.controlledNode.querySelector(
+      `[data-project-id="${projectId}"]`,
+    );
+    ele?.remove();
+  }
+
   renderProject(project: Project) {
     const ele = createProjectElement(project);
     const existingProject = this.controlledNode.querySelector(
