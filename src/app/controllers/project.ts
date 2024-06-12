@@ -17,9 +17,6 @@ export class ProjectController {
   renderAll() {
     this.controlledNode.innerHTML = '';
 
-    // TODO: Filter out projects that have no todo,
-    //       no need to render them.
-
     const allProjects = this.projectService.findAll();
 
     for (const project of allProjects) {

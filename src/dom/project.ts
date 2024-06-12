@@ -2,7 +2,7 @@ import { type Project } from '../app/domain';
 
 import { classifyTodos } from '../utils';
 import { createElement } from './helper';
-import { createTodoElement } from './todo';
+import { createEmptyTodoSectionElement, createTodoElement } from './todo';
 
 export function createProjectElement(project: Project) {
   const todoSections = classifyTodos(project.todos);
@@ -38,7 +38,7 @@ export function createProjectElement(project: Project) {
                     {
                       tag: 'button',
                       properties: {
-                        class: 'action-button',
+                        class: 'icon-button',
                         'aria-label': 'Delete project',
                         'data-project-action': 'delete-project',
                       },
@@ -61,27 +61,30 @@ export function createProjectElement(project: Project) {
         properties: {
           class: 'todo-sections',
         },
-        children: todoSections.map(({ title, todos }) => {
-          return {
-            tag: 'section',
-            properties: {
-              class: 'todo-section',
-            },
-            children: [
-              {
-                tag: 'h3',
-                children: title,
-              },
-              {
-                tag: 'div',
-                properties: {
-                  class: 'todos',
-                },
-                children: todos.map(createTodoElement),
-              },
-            ],
-          };
-        }),
+        children:
+          project.todos.length !== 0
+            ? todoSections.map(({ title, todos }) => {
+                return {
+                  tag: 'section',
+                  properties: {
+                    class: 'todo-section',
+                  },
+                  children: [
+                    {
+                      tag: 'h3',
+                      children: title,
+                    },
+                    {
+                      tag: 'div',
+                      properties: {
+                        class: 'todos',
+                      },
+                      children: todos.map(createTodoElement),
+                    },
+                  ],
+                };
+              })
+            : [createEmptyTodoSectionElement(project.id)],
       },
     ],
   });

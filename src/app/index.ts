@@ -10,8 +10,6 @@ import { createElement } from '../dom';
 import { updateLocalDateInput } from '../utils/dom';
 
 {
-  //   let shouldRepopulateProjects = true;
-
   const mainSection = document.querySelector('main.main') as HTMLElement;
   const repo = new LocalStorageProjectRepository();
   const projectService = new ProjectService(repo);
@@ -27,14 +25,44 @@ import { updateLocalDateInput } from '../utils/dom';
   const modalRoot = document.getElementById('modal-root') as HTMLDivElement;
   const modalController = new ModalController(modalRoot);
 
-  const addTodoButton = document.getElementById(
-    'add-todo-action',
-  ) as HTMLButtonElement;
   const addProjectButton = document.getElementById(
     'add-project-action',
   ) as HTMLButtonElement;
 
-  addTodoButton.addEventListener('click', () => {
+  addProjectButton.addEventListener('click', () => {
+    modalController.renderModal({
+      type: 'add-project',
+      onConfirm(payload: SubmittedProject) {
+        const project = projectController.addNewProject(payload);
+        const ele = document.querySelector(
+          `[data-project-id="${project.id}"]`,
+        ) as HTMLElement;
+        ele.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'center',
+        });
+      },
+    });
+  });
+
+  mainSection.addEventListener('click', onProjectDelete, { capture: true });
+
+  mainSection.addEventListener('click', onTodoAction, { capture: true });
+
+  window.addEventListener('click', onAddTodoClick, { capture: true });
+
+  // =============================================================
+
+  function onAddTodoClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!('action' in target.dataset && target.dataset.action === 'add-todo')) {
+      return;
+    }
+    event.stopImmediatePropagation();
+
+    const projectId = target.dataset.projectId ?? '@DEFAULT_PROJECT';
+
     modalController.renderModal({
       type: 'add-todo',
       onConfirm(payload: SubmittedTodo) {
@@ -55,70 +83,64 @@ import { updateLocalDateInput } from '../utils/dom';
             updateLocalDateInput(input as HTMLInputElement, 3);
             break;
           case 'projectId':
-            populateProjectOptions(input as HTMLInputElement);
+            populateProjectOptions(input as HTMLInputElement, projectId);
             break;
         }
       },
     });
-  });
+  }
 
-  addProjectButton.addEventListener('click', () => {
+  function onTodoAction(event: Event) {
+    const target = event.target as HTMLElement;
+    const action = target.getAttribute('data-todo-action');
+    if (!action) {
+      return;
+    }
+    event.stopImmediatePropagation();
+    const todoEle = target.closest('.todo') as HTMLElement;
+    const todoId = todoEle.dataset.todoId!;
+
+    console.log({ todoId });
+  }
+
+  function onProjectDelete(event: Event) {
+    const target = event.target as HTMLElement;
+    const action = target.getAttribute('data-project-action');
+    if (action !== 'delete-project') {
+      return;
+    }
+    event.stopImmediatePropagation();
+    const projectEle = target.closest('.project') as HTMLElement;
+    const projectId = projectEle.dataset.projectId!;
+    const project = projectService.findById(projectId);
+    const totalTodos = project.todos.length;
+
+    let message = `Delete "${project.title}" project?`;
+    if (totalTodos > 0) {
+      const noun = totalTodos === 1 ? 'todo' : 'todos';
+      message += ` A total of ${totalTodos} ${noun} will be deleted alongside it.`;
+    }
+
     modalController.renderModal({
-      type: 'add-project',
-      onConfirm(payload: SubmittedProject) {
-        const project = projectController.addNewProject(payload);
-        const ele = document.querySelector(
-          `[data-project-id="${project.id}"]`,
-        ) as HTMLElement;
-        ele.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'center',
-        });
+      type: 'delete-confirm',
+      message,
+      onConfirm() {
+        projectController.deleteProject(projectId);
       },
     });
-  });
+  }
 
-  mainSection.addEventListener(
-    'click',
-    function onProjectDelete(event) {
-      const target = event.target as HTMLElement;
-      const action = target.getAttribute('data-project-action');
-      if (action !== 'delete-project') {
-        return;
-      }
-      event.stopImmediatePropagation();
-      const projectEle = target.closest('.project') as HTMLElement;
-      const projectId = projectEle.dataset.projectId!;
-      const project = projectService.findById(projectId);
-      const totalTodos = project.todos.length;
-
-      let message = `Delete "${project.title}" project?`;
-      if (totalTodos > 0) {
-        const noun = totalTodos === 1 ? 'todo' : 'todos';
-        message += ` A total of ${totalTodos} ${noun} will be deleted alongside it.`;
-      }
-
-      modalController.renderModal({
-        type: 'delete-confirm',
-        message,
-        onConfirm() {
-          projectController.deleteProject(projectId);
-        },
-      });
-    },
-    { capture: true },
-  );
-
-  // =============================================================
-
-  function populateProjectOptions(input: HTMLInputElement) {
+  function populateProjectOptions(
+    input: HTMLInputElement,
+    selectedProjectId: string = '@DEFAULT_PROJECT',
+  ) {
     input.innerHTML = '';
     projectService.findAll().forEach(({ id, title }) => {
       const optionEle = createElement({
         tag: 'option',
         properties: {
           value: id,
+          selected: selectedProjectId === id ? '' : undefined,
         },
         children: title,
       });
@@ -128,7 +150,7 @@ import { updateLocalDateInput } from '../utils/dom';
 }
 
 {
-  //   window.addEventListener('contextmenu', (e) => e.preventDefault());
+  window.addEventListener('contextmenu', (e) => e.preventDefault());
   const footerYearSpan = document.getElementById('footer-year')!;
   const year = new Date().getFullYear();
   footerYearSpan.textContent = year.toString();

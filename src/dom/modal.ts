@@ -33,7 +33,7 @@ function createAddProjectModalContent() {
             properties: {
               type: 'button',
               'aria-label': 'Close modal',
-              class: 'action-button',
+              class: 'icon-button',
               'data-action': 'close',
             },
             children: [
@@ -136,7 +136,7 @@ function createAddTodoModalContent() {
             properties: {
               type: 'button',
               'aria-label': 'Close modal',
-              class: 'action-button',
+              class: 'icon-button',
               'data-action': 'close',
             },
             children: [

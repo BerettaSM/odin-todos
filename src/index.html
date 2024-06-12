@@ -32,10 +32,10 @@
 
                 <ul id="menu-actions" class="project-actions">
                     <li>
-                        <button id="add-todo-action"><i class="fa-solid fa-file-circle-plus"></i> Add Todo</button>
+                        <button data-action="add-todo" class="action-button"><i class="fa-solid fa-file-circle-plus icon"></i> Add Todo</button>
                     </li>
                     <li>
-                        <button id="add-project-action"><i class="fa-regular fa-square-plus"></i> Add Project</button>
+                        <button id="add-project-action" class="action-button"><i class="fa-regular fa-square-plus icon"></i> Add Project</button>
                     </li>
                 </ul>
             </section>
@@ -91,13 +91,14 @@
                     <h2>Project Name</h2>
 
                     <div class="project-actions">
-                        <button class="action-button" aria-label="Delete project">
+                        <button class="icon-button" aria-label="Delete project">
                             <i class="fa-solid fa-trash fa-lg icon close-icon"></i>
                         </button>
                     </div>
                 </header>
 
                 <div class="todo-sections">
+
                     <section class="expired-todos">
                         <h3>Expired</h3>
                         <div class="todos">
@@ -107,19 +108,26 @@
                                 <i class="fa-regular fa-lg fa-circle-check icon check-icon"></i>
                                 <h4 class="text-overflow-ellipsis">Todo title</h4>
                                 <div class="todo-actions">
-                                    <button class="action-button" aria-label="See todo info">
+                                    <button class="icon-button" aria-label="See todo info">
                                         <i class="fa-solid fa-eye fa-lg"></i>
                                     </button>
-                                    <button class="action-button" aria-label="Edit todo">
+                                    <button class="icon-button" aria-label="Edit todo">
                                         <i class="fa-solid fa-pen-to-square fa-lg icon edit-icon"></i>
                                     </button>
-                                    <button class="action-button" aria-label="Delete todo">
+                                    <button class="icon-button" aria-label="Delete todo">
                                         <i class="fa-solid fa-trash fa-lg icon close-icon"></i>
                                     </button>
                                 </div>
                             </article>
                         </div>
                     </section>
+
+                    <div class="empty-todos">
+                        <h3>You have no todos yet.</h3>
+                        <p>Add some maybe?</p>
+                        <button class="action-button" data-action="add-todo" data-project-id="f7031f24-2389-4007-bff1-02f9bc24933a">Click here to add</button>
+                    </div>
+
                 </div>
 
             </article> -->

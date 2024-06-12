@@ -47,14 +47,15 @@ export function createTodoElement(todo: Todo) {
           {
             tag: 'button',
             properties: {
-              class: 'action-button',
+              class: 'icon-button',
               'aria-label': 'See todo info',
+              'data-todo-action': 'see-todo',
             },
             children: [
               {
                 tag: 'i',
                 properties: {
-                  class: 'fa-solid fa-eye fa-lg',
+                  class: 'fa-solid fa-eye fa-lg icon',
                 },
               },
             ],
@@ -62,14 +63,15 @@ export function createTodoElement(todo: Todo) {
           {
             tag: 'button',
             properties: {
-              class: 'action-button',
+              class: 'icon-button',
               'aria-label': 'Edit todo',
+              'data-todo-action': 'edit-todo',
             },
             children: [
               {
                 tag: 'i',
                 properties: {
-                  class: 'fa-solid fa-pen-to-square fa-lg edit-icon',
+                  class: 'fa-solid fa-pen-to-square fa-lg icon edit-icon',
                 },
               },
             ],
@@ -77,14 +79,15 @@ export function createTodoElement(todo: Todo) {
           {
             tag: 'button',
             properties: {
-              class: 'action-button',
+              class: 'icon-button',
               'aria-label': 'Delete todo',
+              'data-todo-action': 'delete-todo',
             },
             children: [
               {
                 tag: 'i',
                 properties: {
-                  class: 'fa-solid fa-trash fa-lg close-icon',
+                  class: 'fa-solid fa-trash fa-lg icon close-icon',
                 },
               },
             ],
@@ -120,6 +123,36 @@ export function createTodoSectionElement(title: string, todos?: Todo[]) {
           class: 'todos',
         },
         children: todos ? todos.map(createTodoElement) : undefined,
+      },
+    ],
+  });
+}
+
+export function createEmptyTodoSectionElement(
+  projectId: string = '@DEFAULT_PROJECT',
+) {
+  return createElement({
+    tag: 'div',
+    properties: {
+      class: 'empty-todos',
+    },
+    children: [
+      {
+        tag: 'h3',
+        children: 'You have no todos yet.',
+      },
+      {
+        tag: 'p',
+        children: 'Add some maybe?',
+      },
+      {
+        tag: 'button',
+        properties: {
+          class: 'action-button',
+          'data-action': 'add-todo',
+          'data-project-id': projectId,
+        },
+        children: 'Click here to add',
       },
     ],
   });

@@ -148,28 +148,6 @@ html {
 
     gap: var(--padding-sm);
     list-style-type: none;
-
-    button {
-      background-color: var(--theme-color);
-      color: var(--color-gray-200);
-      border: none;
-      border-radius: var(--border-radius);
-      padding: var(--padding-sm);
-      width: 100%;
-      transition:
-        filter var(--transition-out-delay) ease-out,
-        transform var(--transition-out-delay) ease-out,
-        box-shadow var(--transition-out-delay) ease-out;
-      box-shadow: var(--shadow-elevation-medium);
-      will-change: transform;
-    }
-
-    button:hover {
-      transition-duration: var(--transition-in-delay);
-      filter: brightness(0.9);
-      transform: translate(-3px, -2px) scale(1.01);
-      box-shadow: var(--shadow-elevation-high);
-    }
   }
 
   .filters {
@@ -299,6 +277,7 @@ html {
     .todo-sections {
       display: flex;
       flex-direction: column;
+      position: relative;
       gap: 8px;
       /*
         The following height calc is meant to constrain
@@ -377,7 +356,7 @@ html {
           display: flex;
           margin-inline-start: auto;
 
-          .action-button {
+          .icon-button {
             height: 30px;
             width: 30px;
           }
@@ -394,6 +373,23 @@ html {
         --blink-color-to: var(--color-success-light);
         animation: blink 2 400ms linear forwards;
         animation-delay: 750ms;
+      }
+
+      .empty-todos {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--padding-sm);
+        position: absolute;
+        height: fit-content;
+        width: fit-content;
+        margin: auto;
+        inset: 0;
+        background-color: var(--color-gray-100);
+        padding: var(--padding-md);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-elevation-medium);
       }
     }
   }
@@ -416,6 +412,26 @@ button {
 }
 
 .action-button {
+  background-color: var(--theme-color);
+  color: var(--color-gray-200);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--padding-sm);
+  width: 100%;
+  transition:
+    transform var(--transition-out-delay) ease-out,
+    box-shadow var(--transition-out-delay) ease-out;
+  box-shadow: var(--shadow-elevation-medium);
+  will-change: transform;
+
+  &:hover {
+    transition-duration: var(--transition-in-delay);
+    transform: translate(-3px, -2px) scale(1.01);
+    box-shadow: var(--shadow-elevation-high);
+  }
+}
+
+.icon-button {
   border: none;
   height: 44px;
   width: 44px;
