@@ -57,6 +57,7 @@ export class TodoService {
     const todoIndex = project.todos.findIndex((todo) => todo === foundTodo);
     project.todos.splice(todoIndex, 1);
     this.repo.save(project);
+    return foundTodo;
   }
 
   toggleTodo(todoId: string) {

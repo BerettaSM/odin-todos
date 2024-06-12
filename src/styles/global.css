@@ -325,6 +325,7 @@ html {
           height: 20px;
           width: 20px;
           cursor: pointer;
+          pointer-events: none;
         }
 
         input[type='checkbox']:checked ~ .check-icon.fa-circle-check {

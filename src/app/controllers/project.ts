@@ -51,6 +51,12 @@ export class ProjectController {
     ele?.remove();
   }
 
+  deleteTodo(todoId: string) {
+    const todo = this.todoService.deleteById(todoId);
+    const project = this.projectService.findById(todo.projectId);
+    this.renderProject(project);
+  }
+
   renderProject(project: Project) {
     const ele = createProjectElement(project);
     const existingProject = this.controlledNode.querySelector(

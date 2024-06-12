@@ -102,7 +102,17 @@ import { updateLocalDateInput } from '../utils/dom';
     const todoEle = target.closest('.todo') as HTMLElement;
     const todoId = todoEle.dataset.todoId!;
 
-    console.log({ todoId });
+    switch (action) {
+      case 'delete-todo':
+        modalController.renderModal({
+          type: 'delete-confirm',
+          message: 'Delete todo?',
+          onConfirm() {
+            projectController.deleteTodo(todoId);
+          },
+        });
+        break;
+    }
   }
 
   function onTodoClick(event: Event) {
