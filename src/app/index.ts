@@ -48,6 +48,8 @@ import { updateLocalDateInput } from '../utils/dom';
 
   mainSection.addEventListener('click', onProjectDelete, { capture: true });
 
+  mainSection.addEventListener('click', onTodoClick, { capture: true });
+
   mainSection.addEventListener('click', onTodoAction, { capture: true });
 
   window.addEventListener('click', onAddTodoClick, { capture: true });
@@ -101,6 +103,17 @@ import { updateLocalDateInput } from '../utils/dom';
     const todoId = todoEle.dataset.todoId!;
 
     console.log({ todoId });
+  }
+
+  function onTodoClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('todo')) {
+      return;
+    }
+    event.stopImmediatePropagation();
+    const todoId = target.dataset.todoId!;
+
+    projectController.toggleTodo(todoId);
   }
 
   function onProjectDelete(event: Event) {

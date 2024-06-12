@@ -37,6 +37,12 @@ export class ProjectController {
     return newTodo;
   }
 
+  toggleTodo(todoId: string) {
+    const todo = this.todoService.toggleTodo(todoId);
+    const project = this.projectService.findById(todo.projectId);
+    this.renderProject(project);
+  }
+
   deleteProject(projectId: string) {
     this.projectService.deleteById(projectId);
     const ele = this.controlledNode.querySelector(

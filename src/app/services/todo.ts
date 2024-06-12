@@ -58,4 +58,10 @@ export class TodoService {
     project.todos.splice(todoIndex, 1);
     this.repo.save(project);
   }
+
+  toggleTodo(todoId: string) {
+    const todo = this.findById(todoId);
+    todo.done = !todo.done;
+    return this.save(todo);
+  }
 }
