@@ -1,5 +1,5 @@
 import { type Todo } from '../app/domain';
-import { ElementConfig, type ModalConfig } from '../types';
+import { type ElementConfig, type ModalConfig } from '../types';
 
 import { createElement } from './helper';
 

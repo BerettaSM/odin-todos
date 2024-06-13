@@ -179,7 +179,7 @@ import { updateLocalDateInput } from '../utils/dom';
 }
 
 {
-  //   window.addEventListener('contextmenu', (e) => e.preventDefault());
+  window.addEventListener('contextmenu', (e) => e.preventDefault());
   const footerYearSpan = document.getElementById('footer-year')!;
   const year = new Date().getFullYear();
   footerYearSpan.textContent = year.toString();

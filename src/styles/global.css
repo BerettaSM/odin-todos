@@ -463,10 +463,6 @@ button {
     color: var(--theme-color-light);
   }
 
-  &:hover .edit-icon {
-    color: var(--color-attention);
-  }
-
   &:hover .close-icon {
     color: var(--color-danger);
   }

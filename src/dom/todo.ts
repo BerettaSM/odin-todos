@@ -64,22 +64,6 @@ export function createTodoElement(todo: Todo) {
             tag: 'button',
             properties: {
               class: 'icon-button',
-              'aria-label': 'Edit todo',
-              'data-todo-action': 'edit-todo',
-            },
-            children: [
-              {
-                tag: 'i',
-                properties: {
-                  class: 'fa-solid fa-pen-to-square fa-lg icon edit-icon',
-                },
-              },
-            ],
-          },
-          {
-            tag: 'button',
-            properties: {
-              class: 'icon-button',
               'aria-label': 'Delete todo',
               'data-todo-action': 'delete-todo',
             },
