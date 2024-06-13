@@ -102,16 +102,22 @@ import { updateLocalDateInput } from '../utils/dom';
     const todoEle = target.closest('.todo') as HTMLElement;
     const todoId = todoEle.dataset.todoId!;
 
-    switch (action) {
-      case 'delete-todo':
-        modalController.renderModal({
-          type: 'delete-confirm',
-          message: 'Delete todo?',
-          onConfirm() {
-            projectController.deleteTodo(todoId);
-          },
-        });
-        break;
+    if (action === 'view-todo') {
+      const todo = todoService.findById(todoId);
+      const projectName = projectService.findById(todo.projectId).title;
+      modalController.renderModal({
+        type: 'view-todo',
+        payload: { ...todo, projectName },
+        onConfirm() {},
+      });
+    } else if (action === 'delete-todo') {
+      modalController.renderModal({
+        type: 'delete-confirm',
+        message: 'Delete todo?',
+        onConfirm() {
+          projectController.deleteTodo(todoId);
+        },
+      });
     }
   }
 
@@ -173,7 +179,7 @@ import { updateLocalDateInput } from '../utils/dom';
 }
 
 {
-  window.addEventListener('contextmenu', (e) => e.preventDefault());
+  //   window.addEventListener('contextmenu', (e) => e.preventDefault());
   const footerYearSpan = document.getElementById('footer-year')!;
   const year = new Date().getFullYear();
   footerYearSpan.textContent = year.toString();

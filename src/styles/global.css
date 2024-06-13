@@ -396,6 +396,18 @@ html {
   }
 }
 
+table.todo-view {
+  th {
+    vertical-align: top;
+    text-align: end;
+    padding-inline-end: var(--padding-sm);
+    font-size: 1.2rem;
+  }
+  td {
+    font-size: 1.1rem;
+  }
+}
+
 button {
   color: inherit;
   cursor: pointer;
@@ -495,6 +507,25 @@ button {
 
   > :first-child {
     margin-inline-start: auto;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    margin-inline: 0 auto;
+    padding-inline-start: var(--padding-sm);
+
+    .icon.success {
+      color: var(--color-success);
+    }
+
+    .icon.attention {
+      color: var(--color-attention);
+    }
+
+    .icon.danger {
+      color: var(--color-danger-light);
+    }
   }
 
   button {

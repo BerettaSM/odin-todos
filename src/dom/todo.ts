@@ -49,7 +49,7 @@ export function createTodoElement(todo: Todo) {
             properties: {
               class: 'icon-button',
               'aria-label': 'See todo info',
-              'data-todo-action': 'see-todo',
+              'data-todo-action': 'view-todo',
             },
             children: [
               {

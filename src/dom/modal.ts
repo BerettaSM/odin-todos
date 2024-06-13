@@ -1,4 +1,5 @@
-import { type ModalConfig } from '../types';
+import { type Todo } from '../app/domain';
+import { ElementConfig, type ModalConfig } from '../types';
 
 import { createElement } from './helper';
 
@@ -8,6 +9,8 @@ export function createModalContent(config: ModalConfig) {
       return createAddProjectModalContent();
     case 'add-todo':
       return createAddTodoModalContent();
+    case 'view-todo':
+      return createViewTodoModalContent(config.payload);
   }
   return createDeleteModalContent(config.message);
 }
@@ -396,6 +399,182 @@ function createDeleteModalContent(message: string) {
               class: 'danger ghost',
             },
             children: 'Delete',
+          },
+        ],
+      }),
+    ],
+  );
+  return frag;
+}
+
+function createViewTodoModalContent(todo: Todo & { projectName: string }) {
+  const frag = document.createDocumentFragment();
+
+  const isLate = new Date(todo.date) < new Date();
+
+  const shownFields: ElementConfig[] = [
+    {
+      tag: 'tr',
+      children: [
+        {
+          tag: 'th',
+          children: [
+            {
+              tag: 'strong',
+              children: 'Project:',
+            },
+          ],
+        },
+        {
+          tag: 'td',
+          children: todo.projectName,
+        },
+      ],
+    },
+    {
+      tag: 'tr',
+      children: [
+        {
+          tag: 'th',
+          children: [
+            {
+              tag: 'strong',
+              children: 'Description:',
+            },
+          ],
+        },
+        {
+          tag: 'td',
+          children: todo.description,
+        },
+      ],
+    },
+    {
+      tag: 'tr',
+      children: [
+        {
+          tag: 'th',
+          children: [
+            {
+              tag: 'strong',
+              children: 'Priority:',
+            },
+          ],
+        },
+        {
+          tag: 'td',
+          children: todo.priority,
+        },
+      ],
+    },
+    {
+      tag: 'tr',
+      children: [
+        {
+          tag: 'th',
+          children: [
+            {
+              tag: 'strong',
+              children: 'Due Date:',
+            },
+          ],
+        },
+        {
+          tag: 'td',
+          children: todo.date,
+        },
+      ],
+    },
+  ];
+
+  if (!todo.description) {
+    shownFields.splice(1, 1);
+  }
+
+  frag.append(
+    ...[
+      createElement({
+        tag: 'header',
+        properties: {
+          class: 'modal-header',
+        },
+        children: [
+          {
+            tag: 'h2',
+            properties: {
+              class: 'text-overflow-ellipsis',
+            },
+            children: todo.title,
+          },
+          {
+            tag: 'button',
+            properties: {
+              class: 'icon-button',
+              type: 'button',
+              'aria-label': 'Close modal',
+              'data-action': 'close',
+            },
+            children: [
+              {
+                tag: 'i',
+                properties: {
+                  class: 'fa-solid fa-xmark fa-lg icon close-icon',
+                },
+              },
+            ],
+          },
+        ],
+      }),
+      createElement({
+        tag: 'section',
+        properties: {
+          class: 'modal-body',
+        },
+        children: [
+          {
+            tag: 'table',
+            properties: {
+              class: 'todo-view',
+            },
+            children: [
+              {
+                tag: 'tbody',
+                children: shownFields,
+              },
+            ],
+          },
+        ],
+      }),
+      createElement({
+        tag: 'div',
+        properties: {
+          class: 'modal-actions',
+        },
+        children: [
+          {
+            tag: 'div',
+            properties: {
+              class: 'status',
+            },
+            children: [
+              {
+                tag: 'i',
+                properties: {
+                  class: todo.done
+                    ? 'fa-regular fa-thumbs-up fa-2xl icon success'
+                    : isLate
+                      ? 'fa-regular fa-clock fa-fade fa-2xl icon danger'
+                      : 'fa-solid fa-hourglass fa-spin fa-2xl icon attention',
+                },
+              },
+            ],
+          },
+          {
+            tag: 'button',
+            properties: {
+              'data-action': 'close',
+            },
+            children: 'Done',
           },
         ],
       }),
