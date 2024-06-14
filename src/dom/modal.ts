@@ -481,13 +481,13 @@ function createViewTodoModalContent(todo: Todo & { projectName: string }) {
         },
         {
           tag: 'td',
-          children: todo.date,
+          children: new Date(todo.date).toLocaleString(),
         },
       ],
     },
   ];
 
-  if (!todo.description) {
+  if (todo.description.trim() === '') {
     shownFields.splice(1, 1);
   }
 
