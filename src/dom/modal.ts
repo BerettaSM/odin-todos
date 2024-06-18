@@ -463,7 +463,9 @@ function createViewTodoModalContent(todo: Todo & { projectName: string }) {
         },
         {
           tag: 'td',
-          children: todo.priority,
+          children:
+            todo.priority[0].toUpperCase() +
+            todo.priority.slice(1).toLowerCase(),
         },
       ],
     },
