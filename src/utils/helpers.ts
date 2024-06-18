@@ -73,3 +73,29 @@ export function randomChoice<T>(arr: T[]) {
   const randomIndex = getRandomNumber(arr.length);
   return arr[randomIndex];
 }
+
+export function throttle<F extends (...args: any) => any>(func: F, ms = 1000) {
+  // Get initial timestamp for function call
+  let timestamp = getTimestamp();
+
+  return function throttled(...args: Parameters<F>) {
+    // Get current timestamp
+    const now = getTimestamp();
+
+    // Calculate difference
+    if (now - timestamp < ms) {
+      // If not enough time has elapsed, do nothing.
+      return;
+    }
+
+    // Else call the throttled function.
+    func(...args);
+
+    // And update last function call timestamp
+    timestamp = getTimestamp();
+  };
+
+  function getTimestamp() {
+    return new Date().getTime();
+  }
+}

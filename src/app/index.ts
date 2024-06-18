@@ -9,6 +9,7 @@ import { ModalController, ProjectController } from './controllers';
 import { createElement } from '../dom';
 import { updateLocalDateInput } from '../utils/dom';
 import { Backdrop } from '../components';
+import { throttle } from '../utils';
 
 {
   const mainSection = document.querySelector('main.main') as HTMLElement;
@@ -49,6 +50,8 @@ import { Backdrop } from '../components';
   sidebarToggleButton.addEventListener('click', toggleSidebar);
 
   sidebarBackdrop.addEventListener('click', closeSidebar);
+
+  window.addEventListener('resize', throttle(closeSidebar));
 
   // =============================================================
 
@@ -216,7 +219,7 @@ import { Backdrop } from '../components';
 }
 
 {
-  window.addEventListener('contextmenu', (e) => e.preventDefault());
+  //   window.addEventListener('contextmenu', (e) => e.preventDefault());
   const footerYearSpan = document.getElementById('footer-year')!;
   const year = new Date().getFullYear();
   footerYearSpan.textContent = year.toString();
