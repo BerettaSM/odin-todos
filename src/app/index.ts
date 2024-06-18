@@ -8,6 +8,7 @@ import { ProjectService, TodoService } from './services';
 import { ModalController, ProjectController } from './controllers';
 import { createElement } from '../dom';
 import { updateLocalDateInput } from '../utils/dom';
+import { Backdrop } from '../components';
 
 {
   const mainSection = document.querySelector('main.main') as HTMLElement;
@@ -28,23 +29,14 @@ import { updateLocalDateInput } from '../utils/dom';
   const addProjectButton = document.getElementById(
     'add-project-action',
   ) as HTMLButtonElement;
+  const sidebarBackdrop = document.getElementById(
+    'sidebar-backdrop',
+  ) as Backdrop;
+  const sidebarToggleButton = document.getElementById(
+    'sidebar-toggle-button',
+  ) as HTMLButtonElement;
 
-  addProjectButton.addEventListener('click', () => {
-    modalController.renderModal({
-      type: 'add-project',
-      onConfirm(payload: SubmittedProject) {
-        const project = projectController.addNewProject(payload);
-        const ele = document.querySelector(
-          `[data-project-id="${project.id}"]`,
-        ) as HTMLElement;
-        ele.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'center',
-        });
-      },
-    });
-  });
+  addProjectButton.addEventListener('click', onAddProjectClick);
 
   mainSection.addEventListener('click', onProjectDelete, { capture: true });
 
@@ -54,7 +46,31 @@ import { updateLocalDateInput } from '../utils/dom';
 
   window.addEventListener('click', onAddTodoClick, { capture: true });
 
+  sidebarToggleButton.addEventListener('click', toggleSidebar);
+
+  sidebarBackdrop.addEventListener('click', closeSidebar);
+
   // =============================================================
+
+  function onAddProjectClick() {
+    modalController.renderModal({
+      type: 'add-project',
+      onConfirm(payload: SubmittedProject) {
+        const project = projectController.addNewProject(payload);
+        closeSidebar();
+        const ele = document.querySelector(
+          `[data-project-id="${project.id}"]`,
+        ) as HTMLElement;
+        setTimeout(() => {
+          ele.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'center',
+          });
+        }, 500);
+      },
+    });
+  }
 
   function onAddTodoClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -69,15 +85,18 @@ import { updateLocalDateInput } from '../utils/dom';
       type: 'add-todo',
       onConfirm(payload: SubmittedTodo) {
         const todo = projectController.addNewTodo(payload);
+        closeSidebar();
         const ele = document.querySelector(
           `[data-todo-id="${todo.id}"]`,
         ) as HTMLElement;
-        ele.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center',
-        });
-        ele.classList.add('blink');
+        setTimeout(() => {
+          ele.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center',
+          });
+          ele.classList.add('blink');
+        }, 500);
       },
       processInputs(input) {
         switch (input.name) {
@@ -175,6 +194,24 @@ import { updateLocalDateInput } from '../utils/dom';
       });
       input.appendChild(optionEle);
     });
+  }
+
+  function toggleSidebar() {
+    if (document.body.classList.contains('mobile-sidebar-open')) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  }
+
+  function closeSidebar() {
+    sidebarBackdrop.open = false;
+    document.body.classList.remove('mobile-sidebar-open');
+  }
+
+  function openSidebar() {
+    sidebarBackdrop.open = true;
+    document.body.classList.add('mobile-sidebar-open');
   }
 }
 
