@@ -1,6 +1,7 @@
 import './modal-style.css';
 
 import { extractFormData } from '../utils';
+import { retainFocus } from '../dom';
 
 export class ModalDialog extends HTMLFormElement {
   static get CONFIRM() {
@@ -106,11 +107,18 @@ export class ModalDialog extends HTMLFormElement {
     return this.getAttribute('open') !== null;
   }
 
+  private focusEventCleanup?: () => void;
+
   set open(value: boolean) {
     if (value) {
       this.setAttribute('open', '');
+      this.focusEventCleanup = retainFocus(this);
     } else {
       this.removeAttribute('open');
+      if (this.focusEventCleanup) {
+        this.focusEventCleanup();
+        this.focusEventCleanup = undefined;
+      }
     }
   }
 }
