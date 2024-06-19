@@ -145,6 +145,7 @@ html {
     var(--theme-color-light)
   );
   box-shadow: var(--shadow-elevation-medium);
+  isolation: isolate;
 }
 
 .sidebar {
@@ -638,13 +639,13 @@ ul.errors {
 
 .sidebar-toggle-button {
   position: absolute;
-  background-color: inherit;
+  background-color: transparent;
+  color: var(--color-gray-100);
   border: none;
   height: 44px;
   width: 44px;
-  top: 0;
-  bottom: 0;
-  left: 8px;
+  top: 26px;
+  right: -52px;
   margin: auto;
 
   display: none;
@@ -674,6 +675,10 @@ ul.errors {
   i.close {
     opacity: 1;
   }
+}
+
+#modal-root {
+  isolation: isolate;
 }
 
 @media (min-width: 500px) {
