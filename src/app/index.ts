@@ -56,6 +56,7 @@ import { throttle } from '../utils';
   // =============================================================
 
   function onAddProjectClick() {
+    closeSidebar();
     modalController.renderModal({
       type: 'add-project',
       onConfirm(payload: SubmittedProject) {
@@ -81,6 +82,7 @@ import { throttle } from '../utils';
       return;
     }
     event.stopImmediatePropagation();
+    closeSidebar();
 
     const projectId = target.dataset.projectId ?? '@DEFAULT_PROJECT';
 
